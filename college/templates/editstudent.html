@@ -1,0 +1,124 @@
+{% extends 'navbar.html' %}
+{% block content1 %}
+    {% load static %}
+<style>
+    .bgim{
+        width: 100%;
+        height: 100vh;
+        filter: brightness(50%); 
+    }
+    body{
+        background-image:url("{%  static 'studentreg.jpg' %}") ;
+        background-position: center;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+
+    .container-fluid{
+        
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 70px); 
+        background-color: rgba(0, 50, 75, 0.6);
+        border-radius: 14px;
+        margin: 0;
+        margin-top: 30px;
+        height: 70vh;
+        width: 60vh;    
+    
+    }
+    .navbar{
+        background-color: rgb(5, 210, 237);
+    }
+
+    .form-control{
+        width: 40vh;
+        background-color: rgb(240, 248, 255,0.2);
+    }
+</style>
+{% endblock %}
+{% block content2 %}
+<div class="container-fluid">
+    <div class="container">
+        <h1 style="text-align: center;">Login</h1>
+        <br>
+        <form action="{% url 'editstudent' student.id %}" method ="post" onsubmit="return validate()">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="studentname" id="stname" placeholder="Enter Student's name" value ={{student.studentname}} class="form-control">
+                <br>
+            </div>
+            <div class="form-group">
+                <input type="number" name="age" id ="stage" value = {{student.age}} placeholder="Enter Student's Age" class="form-control">
+                <br>
+            </div>
+            <div class="form-group">
+                <textarea  id="staddress" name="address"  placeholder="Enter Address of Student" class="form-control">{{student.address}}</textarea>
+                <br>
+            </div>
+            <div class="form-group">
+                <select name="course" id="course"  class="form-control">
+                    {% for cours in courses %}
+                    {% if cours.id == student.course.id %}
+                        <option value="{{cours.id}}" selected>{{cours.coursename}}</option>
+                    {% else %}
+                        <option value="{{cours.id}}">{{cours.coursename}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <br>
+            </div>
+            <div class="form-group">
+                <input type="date" name="joiningdate" id="jd" placeholder="Enter Joining Date" value="{{student.joiningdate|date:'Y-m-d'}}" class="form-control">
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <br>
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var selectedc = '{{student.course.id}}';
+        var dropopdown = document.getElementById('course');
+        for (var option of dropopdown.options){
+            if(option.value == selectedc){
+                option.style.display = 'none';
+            }
+        }
+    })
+    function validate(){
+        var stname = document.getElementById('stname').value;
+        var staddress = document.getElementById('staddress').value;
+        var stage = document.getElementById('stage').value;
+        var jd = document.getElementById('jd').value;
+        var course = document.getElementById('course').value;
+        let valid = true;
+        if (stname ==''){
+            alert('provide a name');
+            return false;
+        }
+        if (stage ==''){
+            alert('provide a age');
+            return false;
+        }
+        if (staddress ==''){
+            alert('provide address');
+            return false;
+        }
+        if (course ==''){
+            alert('select a course');
+            return false;
+        }
+        if (jd ==''){
+            alert('provide a join date');
+            return false;
+        }
+        return true;
+        
+    }
+</script>
+
+{% endblock %}

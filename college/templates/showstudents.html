@@ -1,0 +1,97 @@
+{% extends 'navbar.html' %}
+
+    {% block content1 %}
+    <style>
+         body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #b1e2ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+         th, td {
+            padding: 12px 15px;
+
+        }
+
+        th {
+            background-color: #4fa1ff;
+            color: #fff;
+            font-weight: 600;
+        } 
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        button {
+            padding: 8px 14px;
+            background-color: #003c82;
+            border: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007e80;
+        } 
+    </style>
+    {% endblock %}
+{% block content2 %}
+<div class="container">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" style="text-align: center;">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1>Details of Student </h1>
+    <table>
+        <tr>
+            <th>Student Name</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>Course</th>
+            <th>Joining Date</th>
+            <th colspan="2">Edit/Delete</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.studentname }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.address }}</td>
+            <td>{{ student.course.coursename }}</td>
+            <td>{{student.joiningdate }}</td>
+            <td>
+                <button><a href="{% url 'editstudent' student.id %}">Edit</a></button>
+            </td>
+            <td>
+                <button><a href="{% url 'deletestudent' student.id %}">Delete</a></button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
